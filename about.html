@@ -19,7 +19,10 @@
   <meta name="description" content="Exclusive Shipping Solutions, founded in 2014 in East London, South Africa. Quality South African goods, sourced at factory prices and delivered A to Z to buyers worldwide.">
   <meta name="robots" content="index, follow">
   <style>
-    .about-row{display:grid;gap:1rem;margin-top:2rem;align-items:center}
+    .about-row{display:grid;gap:1rem;margin-top:2rem;align-items:center;clear:both}
+    .about-photo{float:right;width:45%;margin:0 0 .65rem .75rem;border-radius:6px;box-shadow:0 1px 5px rgba(0,0,0,.14)}
+    .about-photo img{display:block;width:100%;height:auto;border-radius:6px}
+    @media (min-width:37.5rem){.about-photo{width:38%;max-width:280px;margin:0 0 1rem 1.5rem}}
     @media (min-width:45rem){.about-row{grid-template-columns:1fr 1.55fr}}
     .about-row .footer-map{max-width:none;margin-top:0;border-top:none}
     .about-flag{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;box-shadow:0 .5rem 1.5rem rgba(0,0,0,.5)}
@@ -66,6 +69,10 @@
     <div class="wrap" style="max-width:44rem;padding-bottom:4rem">
       <p class="eyebrow">Company</p>
       <h1 style="font-size:clamp(2.4rem,8vw,4rem);margin:0.6rem 0 1rem;text-transform:none">Proudly South African to the world.</h1>
+      <picture class="about-photo">
+        <source type="image/webp" srcset="assets/about-team-photo-480.webp 480w, assets/about-team-photo.webp 748w" sizes="(max-width:37.49rem) 45vw, 280px">
+        <img src="assets/about-team-photo.jpg" srcset="assets/about-team-photo-480.jpg 480w, assets/about-team-photo.jpg 748w" sizes="(max-width:37.49rem) 45vw, 280px" width="748" height="649" alt="Exclusive Shipping team member holding an Export Import Deliver mug" loading="lazy" decoding="async">
+      </picture>
       <p>Exclusive Shipping Solutions was founded in 2014 with one simple aim: to bring quality South African goods to buyers around the world, without the hassle, and at affordable prices to the end consumer.</p>
       <p style="margin-top:1rem">Our team brings 20+ years of experience in international trade, logistics, manufacturing, and import and export customs. From the farm or factory floor to you.</p>
       <p style="margin-top:1rem">From our head office in East London, South Africa, we work with in-house agents across the country. We make sure to source the right product straight from the factory or farm, at factory prices, so you get quality goods for the best deal.</p>
