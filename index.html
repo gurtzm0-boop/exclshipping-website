@@ -21,7 +21,6 @@
   {"@context":"https://schema.org","@type":"Organization","name":"Exclusive Shipping Solutions (Pty) Ltd","alternateName":"EXCL Shipping","telephone":"+27798975960","email":"orders@exclshipping.com"}
   </script>
   <script src="js/main.js" defer></script>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -198,11 +197,12 @@
           </div>
         </div>
         <div class="form-panel">
-          <form class="form" id="quote-form" action="https://example.invalid/form-endpoint-placeholder" method="post" novalidate>
-            <div class="hp" aria-hidden="true">
-              <label for="company_url">Leave this field empty</label>
-              <input type="text" id="company_url" name="company_url" tabindex="-1" autocomplete="off">
-            </div>
+          <form class="form" id="quote-form" action="https://formsubmit.co/orders@exclshipping.com" method="POST">
+            <input type="hidden" name="_subject" value="New quote request from exclshipping.com">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://exclshipping.com/thank-you.html">
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
             <div class="field">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" autocomplete="name" placeholder="Your name" required aria-describedby="name-error">
@@ -223,10 +223,7 @@
               <textarea id="message" name="message" rows="4" placeholder="Product, quantity and destination" required aria-describedby="message-error"></textarea>
               <p class="err" id="message-error" hidden></p>
             </div>
-            <!-- Cloudflare Turnstile. TEST site key below; replace with the real key from Gert's Cloudflare account and verify the token on the form backend before going live. -->
-            <div class="cf-turnstile captcha" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
             <button class="btn-send" type="submit">Send Message <svg class="arr" aria-hidden="true"><use href="#arr"/></svg></button>
-            <p class="form-status" id="form-status" tabindex="-1">This is a local preview. The form is not connected, so your message was not sent. Once the inbox is wired, the success line will be: “Thank you for contacting us. We have your message and will come back to you with a quote.” <span class="ph">[Form endpoint and inbox for Gert to confirm.]</span></p>
             <p class="popia">By sending this form you agree to our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms and Conditions</a>.</p>
           </form>
         </div>
