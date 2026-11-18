@@ -25,6 +25,7 @@
     .about-contact{margin-top:2rem}
   </style>
   <link rel="stylesheet" href="css/styles.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -38,8 +39,27 @@
       <a class="logo" href="index.html" aria-label="EXCL Shipping home">
         <img src="assets/logo-excl-white.png" width="584" height="372" alt="">
       </a>
+      <a class="logo-exf" href="index.html" aria-label="Ex Factory home"><img src="assets/logo-ex-factory-header.png" width="773" height="185" alt="Ex Factory"></a>
+      <nav class="nav-main" aria-label="Primary">
+        <a href="products.html">Products</a>
+        <a href="index.html#how">How it works</a>
+        <a href="about.html" aria-current="page">About Us</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <span class="h-contacts"><a class="h-phone" href="tel:+27798975960"><svg aria-hidden="true"><use href="#i-phone"/></svg>0027 79 897 5960</a><a class="h-email" href="mailto:orders@exclshipping.com">orders@exclshipping.com</a></span>
       <a class="btn btn-red h-cta" href="index.html#contact">Contact us for pricing</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+      </button>
     </div>
+    <nav class="nav-panel" id="nav-panel" aria-label="Primary">
+      <a href="products.html">Products</a>
+      <a href="index.html#how">How it works</a>
+      <a href="about.html" aria-current="page">About Us</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="tel:+27798975960">Call 0027 79 897 5960</a>
+      <a href="mailto:orders@exclshipping.com">orders@exclshipping.com</a>
+    </nav>
   </header>
   <main id="main" class="section">
     <div class="wrap" style="max-width:44rem;padding-bottom:4rem">
