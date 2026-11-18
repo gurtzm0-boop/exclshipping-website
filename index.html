@@ -24,6 +24,14 @@
   {"@context":"https://schema.org","@type":"Organization","name":"Exclusive Shipping Solutions (Pty) Ltd","alternateName":"EXCL Shipping","telephone":"+27798975960","email":"orders@exclshipping.com"}
   </script>
   <script src="js/main.js" defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .recaptcha-wrap{justify-self:start}
+    .recaptcha-msg{color:var(--red,#ED1C24);font-size:.9rem;margin:.4rem 0 0}
+    @media (max-width:23.5rem){
+      .g-recaptcha{transform:scale(0.9);transform-origin:left top}
+    }
+  </style>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -203,7 +211,7 @@
           <form class="form" id="quote-form" action="https://formsubmit.co/orders@exclshipping.com" method="POST">
             <input type="hidden" name="_subject" value="New quote request from exclshipping.com">
             <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="true">
+            <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_next" value="https://exclshipping.com/thank-you.html">
             <input type="hidden" name="_cc" value="gertm@exclshipping.com">
             <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
@@ -227,8 +235,32 @@
               <textarea id="message" name="message" rows="4" placeholder="Product, quantity and destination" required aria-describedby="message-error"></textarea>
               <p class="err" id="message-error" hidden></p>
             </div>
+            <div class="recaptcha-wrap">
+              <div class="g-recaptcha" data-sitekey="6Lfb6SYuAAAAAABZgIM1gO9QXvMW6KHkiW-Ddpht" data-callback="exclRecaptchaDone"></div>
+              <p class="recaptcha-msg" id="recaptcha-msg" hidden>Please tick the 'I'm not a robot' box.</p>
+            </div>
             <button class="btn-send" type="submit">Send Message <svg class="arr" aria-hidden="true"><use href="#arr"/></svg></button>
           </form>
+          <script>
+            function exclRecaptchaDone() {
+              var msg = document.getElementById("recaptcha-msg");
+              if (msg) msg.hidden = true;
+            }
+            (function () {
+              var form = document.getElementById("quote-form");
+              if (!form) return;
+              form.addEventListener("submit", function (e) {
+                var ticked = window.grecaptcha && grecaptcha.getResponse();
+                var msg = document.getElementById("recaptcha-msg");
+                if (!ticked) {
+                  e.preventDefault();
+                  if (msg) msg.hidden = false;
+                } else if (msg) {
+                  msg.hidden = true;
+                }
+              });
+            })();
+          </script>
         </div>
       </div>
     </section>
