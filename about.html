@@ -102,13 +102,16 @@
               <p style="display:flex;gap:.9rem;align-items:center;margin:0;padding:.1rem .7rem 0;font-size:.75rem;color:#C8C8C8"><span style="display:inline-flex;align-items:center;gap:.35rem"><span style="width:.55rem;height:.55rem;border-radius:50%;background:#ED1C24;box-shadow:0 0 0 1.5px #ED1C24"></span>Cities</span><span style="display:inline-flex;align-items:center;gap:.35rem"><span style="width:.4rem;height:.4rem;border-radius:50%;background:#F5C400;box-shadow:0 0 0 1.5px #F5C400"></span>Border posts</span></p>
               <a class="footer-map-link" href="https://www.openstreetmap.org/?mlat=-33.0153&amp;mlon=27.9116#map=12/-33.0153/27.9116" target="_blank" rel="noopener">East London, South Africa · View on map</a>
             </div>
-          <svg class="about-flag" viewBox="0 0 900 600" role="img" aria-label="Flag of South Africa">
-            <rect width="900" height="600" fill="#001489"/>
-            <rect width="900" height="300" fill="#E03C31"/>
-            <path fill="#FFB81C" d="M0 0l562.5 300L0 600z"/>
-            <path fill="#007749" d="M0 0h180L630 300 180 600H0L562.5 300z"/>
-            <path fill="#fff" d="M180 0h67.5L697.5 300 247.5 600H180L630 300z"/>
-            <path fill="#000" d="M0 75v450l337.5-225z"/>
+          <svg class="about-flag" viewBox="0 0 9 6" role="img" aria-label="Flag of South Africa">
+            <clipPath id="za-flag"><rect width="9" height="6"/></clipPath>
+            <g clip-path="url(#za-flag)">
+              <path fill="#001489" d="M0,0H9V6H0z"/>
+              <path fill="#E03C31" d="M0,0H9V3H0z"/>
+              <path fill="none" stroke="#FFF" stroke-width="2" d="M0,0 4.5,3H9M0,6 4.5,3"/>
+              <path fill="none" stroke="#007749" stroke-width="1.2" d="M0,0 4.5,3H9M0,6 4.5,3"/>
+              <path fill="none" stroke="#FFB81C" stroke-width="0.8" d="M0,0 4.5,3 0,6"/>
+              <path fill="#000" d="M0,0 4.5,3 0,6z"/>
+            </g>
           </svg>
       </div>
       <div class="about-contact">
