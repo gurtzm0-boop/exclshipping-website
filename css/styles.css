@@ -459,7 +459,7 @@ h1,h2,h3,h4,.display{
   .hero-actions .btn{width:100%;max-width:22rem;justify-content:center}
   .contact{padding-bottom:5.5rem}
 }
-.hero-sub-lead{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.25em;text-transform:uppercase;letter-spacing:.02em;color:#fff;line-height:1.2}
+.hero-sub-lead{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:1.25em;letter-spacing:.02em;color:#fff;line-height:1.2}
 .hero-sub-line{display:block;margin-top:.25rem}
 /* Ex-Factory logo beside EXCL in header */
 .logo-exf{display:flex;align-items:center;flex:none;padding-left:.75rem;border-left:1px solid rgba(255,255,255,.25);text-decoration:none}
