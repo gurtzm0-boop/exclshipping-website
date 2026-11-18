@@ -255,8 +255,11 @@
                 if (!ticked) {
                   e.preventDefault();
                   if (msg) msg.hidden = false;
-                } else if (msg) {
-                  msg.hidden = true;
+                } else {
+                  if (msg) msg.hidden = true;
+                  form.querySelectorAll('[name="g-recaptcha-response"]').forEach(function (el) {
+                    el.removeAttribute("name");
+                  });
                 }
               });
             })();
