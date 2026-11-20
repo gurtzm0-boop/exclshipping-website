@@ -120,3 +120,154 @@
   if (document.readyState === "complete") begin();
   else window.addEventListener("load", begin, { once: true });
 })();
+
+/* Homepage advert banner: pause on hover or touch, drag sideways while paused,
+   then resume the same loop from the dragged position. */
+(function () {
+  "use strict";
+  var reel = document.querySelector(".ad-reel");
+  if (!reel) return;
+  var track = reel.querySelector(".ad-reel-track");
+  if (!track) return;
+
+  var reduce = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+  if (reduce && reduce.matches) return;
+
+  var DURATION = 70000;
+  var DRAG_PX = 8;
+  var offset = 0;
+  var half = 0;
+  var last = 0;
+  var paused = false;
+  var pointerId = null;
+  var dragging = false;
+  var moved = false;
+  var startX = 0;
+  var startY = 0;
+  var lastX = 0;
+  var stopped = false;
+
+  function wrap(v) {
+    if (!half) return 0;
+    v %= half;
+    if (v < 0) v += half;
+    return v;
+  }
+  function measure() {
+    half = track.scrollWidth / 2;
+  }
+  function readOffset() {
+    var tr = window.getComputedStyle(track).transform;
+    if (!tr || tr === "none") return 0;
+    var m3 = tr.match(/matrix3d\(([^)]+)\)/);
+    if (m3) {
+      var x3 = parseFloat(m3[1].split(",")[12]);
+      return isFinite(x3) ? wrap(-x3) : 0;
+    }
+    var m = tr.match(/matrix\(([^)]+)\)/);
+    if (!m) return 0;
+    var x = parseFloat(m[1].split(",")[4]);
+    return isFinite(x) ? wrap(-x) : 0;
+  }
+  function apply() {
+    track.style.transform = "translate3d(" + (-offset) + "px,0,0)";
+  }
+  function tick(now) {
+    if (stopped) return;
+    if (!last) last = now;
+    var dt = now - last;
+    last = now;
+    if (!paused && half) {
+      offset = wrap(offset + (half / DURATION) * dt);
+      apply();
+    }
+    requestAnimationFrame(tick);
+  }
+  function hovering() {
+    return reel.matches(":hover") || reel.matches(":focus-within");
+  }
+
+  measure();
+  offset = readOffset();
+  track.style.animation = "none";
+  apply();
+  requestAnimationFrame(tick);
+
+  window.addEventListener("resize", function () {
+    measure();
+    offset = wrap(offset);
+    apply();
+  });
+
+  reel.addEventListener("pointerenter", function () { paused = true; });
+  reel.addEventListener("pointerleave", function () {
+    if (pointerId === null) paused = false;
+  });
+  reel.addEventListener("focusin", function () { paused = true; });
+  reel.addEventListener("focusout", function (e) {
+    if (pointerId === null && !reel.contains(e.relatedTarget)) paused = false;
+  });
+
+  reel.addEventListener("pointerdown", function (e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.pointerType === "mouse" && !paused) return;
+    if (e.pointerType !== "mouse") paused = true;
+    pointerId = e.pointerId;
+    dragging = false;
+    moved = false;
+    startX = lastX = e.clientX;
+    startY = e.clientY;
+    measure();
+  });
+
+  reel.addEventListener("pointermove", function (e) {
+    if (pointerId !== e.pointerId) return;
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    if (!dragging) {
+      if (Math.abs(dx) < DRAG_PX || Math.abs(dx) <= Math.abs(dy)) return;
+      dragging = true;
+      moved = true;
+      reel.classList.add("is-dragging");
+      try { reel.setPointerCapture(e.pointerId); } catch (err) {}
+    }
+    var step = e.clientX - lastX;
+    lastX = e.clientX;
+    offset = wrap(offset - step);
+    apply();
+  });
+
+  function endPointer(e) {
+    if (pointerId !== e.pointerId) return;
+    pointerId = null;
+    dragging = false;
+    reel.classList.remove("is-dragging");
+    if (e.pointerType === "touch" || !hovering()) paused = false;
+  }
+  reel.addEventListener("pointerup", function (e) {
+    endPointer(e);
+    setTimeout(function () { moved = false; }, 0);
+  });
+  reel.addEventListener("pointercancel", function (e) {
+    endPointer(e);
+    setTimeout(function () { moved = false; }, 0);
+  });
+
+  reel.addEventListener("click", function (e) {
+    if (!moved) return;
+    moved = false;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
+
+  reel.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+  if (reduce && reduce.addEventListener) {
+    reduce.addEventListener("change", function () {
+      if (!reduce.matches) return;
+      stopped = true;
+      track.style.animation = "";
+      track.style.transform = "";
+    });
+  }
+})();
