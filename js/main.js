@@ -121,8 +121,9 @@
   else window.addEventListener("load", begin, { once: true });
 })();
 
-/* Homepage advert banner: pause on hover or touch, drag sideways while paused,
-   then resume the same loop from the dragged position. */
+/* Homepage advert banner: pause on hover, touch, or press, drag sideways
+   while paused, then resume the same loop from the dragged position.
+   A small pointer movement is still a click. A sideways drag is not. */
 (function () {
   "use strict";
   var reel = document.querySelector(".ad-reel");
@@ -135,17 +136,22 @@
 
   var DURATION = 70000;
   var DRAG_PX = 8;
+  var MOUSE_DRAG_PX = 24;
   var offset = 0;
   var half = 0;
   var last = 0;
   var paused = false;
   var pointerId = null;
+  var pointerType = "";
   var dragging = false;
   var moved = false;
   var startX = 0;
   var startY = 0;
   var lastX = 0;
+  var pressLink = null;
   var stopped = false;
+
+  reel.querySelectorAll("a, img").forEach(function (el) { el.setAttribute("draggable", "false"); });
 
   function wrap(v) {
     if (!half) return 0;
@@ -210,13 +216,15 @@
 
   reel.addEventListener("pointerdown", function (e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    if (e.pointerType === "mouse" && !paused) return;
-    if (e.pointerType !== "mouse") paused = true;
+    paused = true;
     pointerId = e.pointerId;
+    pointerType = e.pointerType || "";
     dragging = false;
     moved = false;
     startX = lastX = e.clientX;
     startY = e.clientY;
+    pressLink = e.target && e.target.closest ? e.target.closest("a") : null;
+    if (pressLink && !reel.contains(pressLink)) pressLink = null;
     measure();
   });
 
@@ -225,7 +233,8 @@
     var dx = e.clientX - startX;
     var dy = e.clientY - startY;
     if (!dragging) {
-      if (Math.abs(dx) < DRAG_PX || Math.abs(dx) <= Math.abs(dy)) return;
+      var slop = pointerType === "mouse" ? MOUSE_DRAG_PX : DRAG_PX;
+      if (Math.abs(dx) < slop || Math.abs(dx) <= Math.abs(dy)) return;
       dragging = true;
       moved = true;
       reel.classList.add("is-dragging");
@@ -244,20 +253,32 @@
     reel.classList.remove("is-dragging");
     if (e.pointerType === "touch" || !hovering()) paused = false;
   }
+  function releasePress() {
+    setTimeout(function () { moved = false; pressLink = null; }, 0);
+  }
   reel.addEventListener("pointerup", function (e) {
     endPointer(e);
-    setTimeout(function () { moved = false; }, 0);
+    releasePress();
   });
   reel.addEventListener("pointercancel", function (e) {
     endPointer(e);
-    setTimeout(function () { moved = false; }, 0);
+    releasePress();
   });
 
   reel.addEventListener("click", function (e) {
-    if (!moved) return;
-    moved = false;
+    if (moved) {
+      moved = false;
+      pressLink = null;
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    var link = pressLink;
+    pressLink = null;
+    if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (link.contains(e.target)) return;
     e.preventDefault();
-    e.stopPropagation();
+    window.location.href = link.getAttribute("href");
   }, true);
 
   reel.addEventListener("dragstart", function (e) { e.preventDefault(); });
