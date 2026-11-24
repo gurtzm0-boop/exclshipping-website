@@ -525,3 +525,12 @@ h1,h2,h3,h4,.display{
 @keyframes mappulse{from{opacity:.9;transform:scale(.6)}to{opacity:0;transform:scale(2.2)}}
 @media (prefers-reduced-motion:reduce){.footer-map .pulse{animation:none;opacity:0}}
 .footer-map-link{display:block;padding:.45rem .7rem;font-size:.85rem;color:var(--muted)}
+.faq-list{display:grid;gap:.65rem;max-width:48rem}
+.faq-list details{background:var(--panel);border:1px solid var(--line-d);border-radius:.55rem}
+.faq-list summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1rem 1.1rem}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary h3{margin:0;font-size:clamp(1.15rem,2.4vw,1.45rem);line-height:1.2;text-transform:none;letter-spacing:0}
+.faq-list summary::after{content:"+";flex:none;color:var(--red);font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.7rem;line-height:1}
+.faq-list details[open] summary::after{content:"\2013"}
+.faq-list details p{color:var(--muted);padding:0 1.1rem 1.05rem;max-width:68ch}
+.faq-list summary:focus-visible{outline:2px solid var(--white);outline-offset:2px}
